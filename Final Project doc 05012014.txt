@@ -1,0 +1,9 @@
+My Final Project
+
+1. The person who will use my project is myself, Mike or anyone of my musician friends.  They will take the beaglebone "pedal" and plug and play.  An audio source will get hooked up and a projector/monitor will broadcast the visuals.  I can see people taking a stereo mix from a soundboard in a live situation or maybe a room mic/vocal mike. For the input, there is a mini USB.  I'll have to get an adaptor or cape to make it either RCA or 1/4" inputs (that's most common for audio).  The ease of use for the end user is most important thing.  On the board, there will be Google Chrome for the WebAudio API.  I'll write a JavaScript program that will do the actual visualizations.
+
+2. They will be happy my project exists if it can take audio and make something cool looking in real time.  I was thinking a kaleidoscope type looking visual with lots of movement and pulsing to the beat.
+
+3. The first 10 minutes of using/interacting with my project will be very easy.  It basically plug in the audio and the monitor/projector.  
+
+4. By the end of tonight, I'd like to be able to understand how the calls between files work.  I'd like to start to draw to the canvas with processing.
