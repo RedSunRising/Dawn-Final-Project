@@ -12,17 +12,16 @@ javascriptNode = context.createScriptProcessor(2048, 1, 1);
 
 
     // get the context from the canvas to draw on
-    var c = document.getElementById('myCanvas');
-    var ctx = c.getContext("2d");
+    var canvas = document.getElementsByTagName('canvas');
 
     // create a gradient for the fill. Note the strange
     // offset, since the gradient is calculated based on
     // the canvas, not the specific element we draw
-    var gradient = ctx.createLinearGradient(0,0,0,130);
+/*    var gradient = ctx.createLinearGradient(0,0,0,130);
     gradient.addColorStop(1,'#000000');
     gradient.addColorStop(0.75,'#ff0000');
     gradient.addColorStop(0.25,'#ffff00');
-    gradient.addColorStop(0,'#ffffff');
+    gradient.addColorStop(0,'#ffffff');*/
 
 
 
