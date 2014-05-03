@@ -1,30 +1,13 @@
-    if (! window.AudioContext) {
-        if (! window.webkitAudioContext) {
-            alert('no audiocontext found');
-        }
-        window.AudioContext = window.webkitAudioContext;
-    }
-
-
-var context = new AudioContext();
-var javascriptNode;
-javascriptNode = context.createScriptProcessor(2048, 1, 1);
-
-
-    // get the context from the canvas to draw on
-    var canvas = document.getElementsByTagName('canvas');
+    var ctx = $("#canvas").get()[0].getContext("2d");
 
     // create a gradient for the fill. Note the strange
     // offset, since the gradient is calculated based on
     // the canvas, not the specific element we draw
-/*    var gradient = ctx.createLinearGradient(0,0,0,130);
+    var gradient = ctx.createLinearGradient(0,0,0,300);
     gradient.addColorStop(1,'#000000');
     gradient.addColorStop(0.75,'#ff0000');
     gradient.addColorStop(0.25,'#ffff00');
-    gradient.addColorStop(0,'#ffffff');*/
-
-
-
+    gradient.addColorStop(0,'#ffffff');
 
     // when the javascript node is called
     // we use information from the analyzer node
