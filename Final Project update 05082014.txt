@@ -1,0 +1,9 @@
+Final Project update 05/08/2014
+
+For tonight (05/08/2014), I would like to have the the volume meter being drawn by a processing sketch and to have a real time spectrum analyzer working by tonight.
+
+For my project, overall, I want to have Chrome on the BeagleBone to use the WebAudio API.  My JavaScript program will be the visualization also living on the ‘Bone.  I hope to have simple shapes and movement to the audio by the Thursday.  I’m super hoping to have something done by then.  I’d love to hear feedback from the class.
+
+I want to explore this further.  I can see this having a GUI for a user to compile their own visualizations from templates that I design.  I want the BeagleBone box to have sliders and other controls for the user to interact with the visualizations in real time.  I also want For example, I could see a user wanting to turn a red hue to a more orange hue.  Or, perhaps changing a hexagonal shape to a circle.  Those are some possibilities.  
+
+I’ve even thought of a name for this:  music4eye
