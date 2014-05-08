@@ -1,13 +1,32 @@
-    var ctx = $("#canvas").get()[0].getContext("2d");
+    //var ctx = $("#canvas").get()[0].getContext("2d");
 
     // create a gradient for the fill. Note the strange
     // offset, since the gradient is calculated based on
     // the canvas, not the specific element we draw
-    var gradient = ctx.createLinearGradient(0,0,0,300);
+ /*   var gradient = ctx.createLinearGradient(0,0,0,300);
     gradient.addColorStop(1,'#000000');
     gradient.addColorStop(0.75,'#ff0000');
     gradient.addColorStop(0.25,'#ffff00');
-    gradient.addColorStop(0,'#ffffff');
+    gradient.addColorStop(0,'#ffffff');*/
+
+    // set up the processing sketch
+    function sketch(p){
+        p.size(300, 300);
+        p.background(0);
+    }
+
+    function draw(){
+
+    }
+
+    function clearRect(){
+        p.rect(0, 0, 60, 130);
+    }
+
+    function drawRect(average){
+        p.fill(50, 50, 50);
+        p.rect()
+    }
 
     // when the javascript node is called
     // we use information from the analyzer node
