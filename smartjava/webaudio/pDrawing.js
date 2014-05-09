@@ -1,5 +1,7 @@
     //var ctx = $("#canvas").get()[0].getContext("2d");
 
+    var canvas = document.getElementsByTagName('canvas')[0];
+
     // create a gradient for the fill. Note the strange
     // offset, since the gradient is calculated based on
     // the canvas, not the specific element we draw
@@ -10,22 +12,28 @@
     gradient.addColorStop(0,'#ffffff');*/
 
     // set up the processing sketch
+
     function sketch(p){
+    
+    function setup(){    
         p.size(300, 300);
         p.background(0);
-    }
-
-    function draw(){
+        p.rotate(180);
 
     }
 
-    function clearRect(){
+  /*  function clearRect(){
         p.rect(0, 0, 60, 130);
+    }*/
+
+    function drawRect1(average){
+        p.fill(255, 0, 0);
+        p.rect(0, 0, 25, 2*average);
     }
 
-    function drawRect(average){
-        p.fill(50, 50, 50);
-        p.rect()
+    function drawRect2(average2){
+        p.fill(255, 255, 255);
+        p.rect(30, 0, 25, 2*average2);
     }
 
     // when the javascript node is called
@@ -34,22 +42,33 @@
     javascriptNode.onaudioprocess = function() {
 
         // get the average for the first channel
+        //clearRect();
+        p.background(0);
+
         var array =  new Uint8Array(analyser.frequencyBinCount);
         analyser.getByteFrequencyData(array);
         var average = getAverageVolume(array);
 
-        // get the average for the second channel
+        drawRect1(average);
+
         var array2 =  new Uint8Array(analyser2.frequencyBinCount);
         analyser2.getByteFrequencyData(array2);
         var average2 = getAverageVolume(array2);
 
+        drawRect2(average2);
+        
         // clear the current state
-        ctx.clearRect(0, 0, 60, 130);
+       // ctx.clearRect(0, 0, 60, 130);
 
         // set the fill style
-        ctx.fillStyle=gradient;
+       // ctx.fillStyle=gradient;
 
         // create the meters
-        ctx.fillRect(0,130-average,25,130);
-        ctx.fillRect(30,130-average2,25,130);
+  /*      ctx.fillRect(0,130-average,25,130);
+        ctx.fillRect(30,130-average2,25,130);*/
     }
+
+    p.setup = setup;
+}
+
+var p = new Processing(canvas, sketch);
