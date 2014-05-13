@@ -18,17 +18,17 @@ function sketch(p){
 
     function setup(){
         p.size(1000, 325);
-        c1 = p.color(204, 102, 0);
-        c2 = p.color(0, 102, 153);
+        c1 = p.color(0);
+        c2 = p.color(153, 50, 204);
         //setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
     };
 
     function draw(){
 
-        setGradient(0, 0, 1000, 325, c1, c2, X_AXIS);
+        setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
         drawSpectrum(array);
-
     };
+
     javascriptNode.onaudioprocess = function() {
 
         // array to get the frequencies
@@ -41,7 +41,10 @@ function sketch(p){
     function drawSpectrum(array) {
         for ( var i = 0; i < array.length; i++ ){
             value = array[i];
-            p.rect(i, 0 , 0 , 325-value);
+            p.fill(0);
+            p.noStroke();
+            p.rect(i*5, 0, 2, 325-value);
+           
         }
     };
 
@@ -59,7 +62,7 @@ function sketch(p){
       }  
       else if (axis == X_AXIS) {  // Left to right gradient
         for (var i = x; i <= x+w; i++) {
-          //var inter = p.map(i, x, x+w, 0, 1);
+          var inter = p.map(i, x, x+w, 0, 1);
           var c = p.lerpColor(c1, c2, inter);
           p.stroke(c);
           p.line(i, y, i, y+h);
