@@ -1,0 +1,208 @@
+
+<html>
+<head>
+<style>
+html, body { width:  100%; height: 100%; margin: 0px; }
+body { background: #000; color: #aaa; font-family: sans-serif; font-size: 12px;}
+a {cursor: pointer; color: #eee; text-decoration: underline;}
+#fps{padding: 5px;}
+#canvas-fluid { zoom: 150%; }
+p {margin:0 5px; padding: 5px; }
+h2 {color:#fff; font-size: 18px; margin:0 5px; padding: 5px; }
+</style>
+</head>
+<body>
+<h2>CFD is Colorful Fluid Dynamics: A music visualizer in HTML5</h2>
+<p>Created at <a href="http://boston.musichackday.org/2013">Music Hack Day Boston 2013</a>. Works best in Google Chrome.</p>
+<p style="font-size:25px; font-weight: bold">Drag &amp; drop MP3 anywhere on the page</p>
+<p><span id="message">or <a style="font-size:25px; font-weight: bold" id="loadSample" onclick="audio.loadSampleAudio('beytah.mp3');">load sample MP3</a> (Screw Base by Beytah from FreeMusicArchive)</span></p>
+<p id="fps"></p>
+<canvas id="canvas-fluid" width="600" height="400"></canvas>
+<p>
+<a onclick="display.additive=!display.additive;">Toggle blending mode</a>
+<a onclick="showVelocity=!showVelocity;">Toggle velocity field</a>
+<a onclick="showParticles=!showParticles;">Toggle particles</a>
+</p>
+<h2>Video Demo</h2>
+<iframe style="margin:5px 10px;" src="//player.vimeo.com/video/79272443" width="500" height="336" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> <p><a href="http://vimeo.com/79272443">CFD is Colorful Fluid Dynamics: A HTML5 Music Visualizer</a> from <a href="http://vimeo.com/chifeng">Chi Feng</a> on <a href="https://vimeo.com">Vimeo</a>.</p>
+<h2>About</h2>
+<ul>
+<li>HTML5 Canvas &amp; Javascript</li>
+<li>Web Audio API</li>
+<li>100K particles</li>
+<li>Realtime beat detection</li>
+</ul>
+<h2>References</h2>
+<p><a href="http://www.dgp.toronto.edu/people/stam/reality/Research/pdf/GDC03.pdf">'Real-Time Fluid Dynamics for Games'</a> by Jos Stam</p>
+<p><a href="http://airtightinteractive.com/demos/js/reactive/">Loop Music Visualizer</a> by <a href="https://twitter.com/felixturner">Felix Turner</a>.</p>
+<p><a href="http://www.youtube.com/watch?feature=player_detailpage&v=fpViZkhpPHk#t=112">Particle tests 3D Music Visualizer</a> by <a href="http://www.youtube.com/user/MatthiasmVideos">MatthiasM.de</a></p>
+
+<script src="FluidField.js"></script>
+<script src="FluidDisplay.js"></script>
+<script src="Music.js"></script>
+<script src="BeatDetector.js"></script>
+<script>
+
+function message(msg) {
+  document.getElementById("message").innerHTML = msg;
+}
+
+var canvas = document.getElementById("canvas");
+var field = new FluidField(canvas);
+var display = new FluidDisplay(field);
+var audio = null; // initialize only if on chrome
+var detector = new BeatDetector();
+
+var start = new Date(); // reset after each fps calculation
+var initial = new Date(); // very beginning
+var frames = 0; // for fps calculation
+
+var time = 0; // time since very beginning
+var offset = 0;
+var interval = 5; 
+var running = false; 
+
+var n = 72000; // number of particles
+var life = 100; // lifetime of particles in frames
+var px = new Float32Array(n); // x coordinate of particles
+var py = new Float32Array(n); // y coordinate of particles
+var pc = new Float32Array(n); // color of particle (hue)
+var pl = new Int16Array(n);   // age of particle 
+
+var showVelocity = false;
+var showParticles = true;
+
+var theta = 0;
+var velocity = 2;
+var radius = 8;
+var fft_resolution = 256;
+
+function resetParticle(i) {
+    var t = i / n;
+    var r = radius + Math.random();
+    px[i] = field.width * 0.5 + r * Math.cos(t * 2 * Math.PI);
+    py[i] = field.height * 0.5 + r * Math.sin(t * 2 * Math.PI);
+    pc[i] = t + offset;
+    pc[i] -= Math.floor(pc[i]);
+    pl[i] = life; 
+}
+
+function pulse(tmin, tmax) {
+  for (var i = 0; i < n; i++) {
+    if (Math.random() < 0.5 && pc[i] < tmax && pc[i] > tmin) {
+      pl[i] = life - Math.floor(Math.random() * 15);
+    }
+  }
+}
+
+function updateFrame() { 
+  
+  requestAnimationFrame(updateFrame);
+
+  if (!audio.playing) return;
+
+  var end = new Date;
+  time = end - initial;
+  offset = time * 0.0001;
+
+  frames++;
+  if (end - start > 500) {
+    document.getElementById("fps").innerHTML = "FPS: " + ((1000 * (frames) / (end - start) + 0.5) | 0);
+    start = end;
+    frames = 0;
+  }
+
+  updateVelocities();
+  field.update();
+
+  for (var i = 0; i < n; i++) {
+    var jitter = (1 - pl[i] / life);
+    var vx = 10 * field.getXVelocity(px[i], py[i]);
+    var vy = 10 * field.getYVelocity(px[i], py[i]);
+    px[i] += vx + (Math.random() - 0.5) * jitter;
+    py[i] += vy + (Math.random() - 0.5) * jitter;
+    pl[i]--;
+    if (pl[i] < 1 || px[i] < 1 || px[i] > field.width || py[i] < 1 || py[i] > field.height - 1) {
+      resetParticle(i);
+    }
+  }
+  
+  display.clear();
+  
+  if (showParticles)
+    display.renderParticles(field, px, py, pc, pl);
+  
+  if (showVelocity)
+    display.renderVelocityField(field);
+
+}
+
+function updateVelocities() {
+
+  detector.sample(audio.analyser);
+
+  // big beats
+  if (detector.beatChance > 1.6) {
+    radius = 15;
+  } else {
+    radius = 8;
+  }
+
+  // jets for bins that are above threshold
+  for (var i = 0; i < detector.historyBins; i++) {
+    var fraction = i / detector.historyBins;
+    fraction += offset;
+    fraction -= Math.floor(fraction);
+    var theta = fraction * Math.PI * 2;
+    var x = Math.floor(field.width / 2 + radius * Math.cos(theta));
+    var y = Math.floor(field.height / 2 + radius * Math.sin(theta));
+    if (detector.binChance[i] > 1.5) {
+      var v = detector.binChance[i];
+      if (v > 3) v = 3;
+      var vx = field.getXVelocity(x, y) + v * Math.cos(theta);
+      var vy = field.getYVelocity(x, y) + v * Math.sin(theta);
+      field.setVelocity(x, y, vx, vy);
+      if (3 < detector.binChance[i] && detector.binChance[i] < 50) {
+        var tmin = i / detector.historyBins - 0.01;
+        var tmax = tmin + 0.02;
+        pulse(tmin, tmax);
+      }
+    } 
+  }
+
+}
+
+window.onload = function() {
+  
+  audio = new Audio();
+  
+  document.addEventListener('drop', function(evt) {   
+    evt.stopPropagation();
+    evt.preventDefault();
+    if (audio.source) audio.source.disconnect(); // clean up previous mp3
+    message("Loading User Audio...");
+    var droppedFiles = evt.dataTransfer.files;
+    var reader = new FileReader();
+    reader.onload = function(fileEvent) {
+      var data = fileEvent.target.result;
+      audio.initAudio(data);
+    };
+    reader.readAsArrayBuffer(droppedFiles[0]);
+  }, false);
+
+  document.addEventListener('dragover', function(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    return false;
+  }, false);  
+
+  for (var i = 0; i < n; i++) {
+    resetParticle(i);
+    pl[i] = Math.floor(Math.random() * life);
+  }
+
+  requestAnimationFrame(updateFrame);
+}
+
+</script>
+</body>
