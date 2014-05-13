@@ -19,7 +19,7 @@ function sketch(p){
     function setup(){
         p.size(500, 325);
         c1 = p.color(0);
-        c2 = p.color(153, 50, 204);
+        c2 = p.color(255, 50, 000);
         //setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
     };
 

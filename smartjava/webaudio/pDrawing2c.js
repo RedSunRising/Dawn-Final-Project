@@ -17,15 +17,15 @@ function sketch(p){
     var c2 = null;
 
     function setup(){
-        p.size(500, 325);
+        p.size(1000, 325);
         c1 = p.color(0);
-        c2 = p.color(153, 50, 204);
+        c2 = p.color(255, 50, 000);
         //setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
     };
 
     function draw(){
 
-        setGradient(0, 0, 500, 325, c1, c2, Y_AXIS);
+        setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
         drawSpectrum(array);
     };
 
@@ -43,7 +43,7 @@ function sketch(p){
             value = array[i];
             p.fill(0);
             p.noStroke();
-            p.rect(i*2.5, 0, 2, 325-value);
+            p.rect(i*5, 0, 4, 325-value);
            
         }
     };
