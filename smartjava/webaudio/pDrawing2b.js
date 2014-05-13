@@ -20,12 +20,12 @@ function sketch(p){
         p.size(1000, 325);
         c1 = p.color(204, 102, 0);
         c2 = p.color(0, 102, 153);
+        //setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
     };
 
     function draw(){
 
-        //p.background(0);
-        setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
+        setGradient(0, 0, 1000, 325, c1, c2, X_AXIS);
         drawSpectrum(array);
 
     };
@@ -41,10 +41,7 @@ function sketch(p){
     function drawSpectrum(array) {
         for ( var i = 0; i < array.length; i++ ){
             value = array[i];
-
-            //p.fill(0);
-            //setGradient(i*5, 325-value, 3, 325, c1, c2, Y_AXIS);
-            p.rect(i*5,325-value,3,325);
+            p.rect(i, 0 , 0 , 325-value);
         }
     };
 
@@ -62,7 +59,7 @@ function sketch(p){
       }  
       else if (axis == X_AXIS) {  // Left to right gradient
         for (var i = x; i <= x+w; i++) {
-          var inter = p.map(i, x, x+w, 0, 1);
+          //var inter = p.map(i, x, x+w, 0, 1);
           var c = p.lerpColor(c1, c2, inter);
           p.stroke(c);
           p.line(i, y, i, y+h);
