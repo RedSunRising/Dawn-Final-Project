@@ -23,12 +23,13 @@ function sketch(p){
         c1 = p.color(204, 102, 0);
         c2 = p.color(0, 102, 153);
 
+
     };
 
     function draw(){
 
-        p.background(0);
-        //setGradient(50, 90, 540, 80, c1, c2, Y_AXIS);
+        //p.background(0);
+        setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
         drawSpectrum(array);
 
     };
@@ -45,8 +46,8 @@ function sketch(p){
         for ( var i = 0; i < array.length; i++ ){
             value = array[i];
 
-            //p.fill(255, 0, 0);
-            setGradient(i*5, 325-value, 3, 325, c1, c2, Y_AXIS);
+            //p.fill(0);
+            //setGradient(i*5, 325-value, 3, 325, c1, c2, Y_AXIS);
             p.rect(i*5,325-value,3,325);
         }
     };
