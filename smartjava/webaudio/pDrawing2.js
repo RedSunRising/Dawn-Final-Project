@@ -28,7 +28,7 @@ function sketch(p){
     function draw(){
 
         p.background(0);
-        setGradient(50, 90, 540, 80, c1, c2, Y_AXIS);
+        //setGradient(50, 90, 540, 80, c1, c2, Y_AXIS);
         drawSpectrum(array);
 
     };
@@ -46,6 +46,7 @@ function sketch(p){
             value = array[i];
 
             //p.fill(255, 0, 0);
+            setGradient(i*5, 325-value, 3, 325, c1, c2, Y_AXIS);
             p.rect(i*5,325-value,3,325);
         }
     };
