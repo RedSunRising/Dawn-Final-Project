@@ -17,7 +17,7 @@ function sketch(p){
     var c2 = null;
  
     function setup(){
-        p.size(800, 800);
+        p.size(700, 700);
         c1 = p.color(0);
         c2 = p.color(153, 50, 204);
         //setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
@@ -25,7 +25,7 @@ function sketch(p){
  
     function draw(){
  
-        setGradient(0, 0, 800, 800, c1, c2, Y_AXIS);
+        setGradient(0, 0, 700, 700, c1, c2, Y_AXIS);
         drawSpectrum(array);
     };
  
@@ -55,8 +55,8 @@ function sketch(p){
            p.arc(p.width/2.0, p.height/2.0, i*2, i*2, p.radians(0), p.radians(360));*/
  
           // Drawing counterRotating boxes proportional to frequency
-          //var counterRotate = 1;
-          //if (array[i] < 255/2) { counterRotate = -1; } // Counterrotate if the power is < 255/2
+          var counterRotate = 1;
+          if (array[i] < 255/2) { counterRotate = -1; } // Counterrotate if the power is < 255/2
  
           if ((i % 10) === 0) {
               drawCross(
@@ -66,6 +66,15 @@ function sketch(p){
                 p.color(256, array[i], 0),
                 10*array[i]/255,
                 p.radians(90)
+                );
+
+                drawCircles(
+                p.width/2,
+                p.height/2,
+                i*2, 
+                p.color(array[i], 256, 256 ),
+                10*array[i]/255,
+                p.radians(p.millis()*array[i]/512 * counterRotate)
                 );
           }
         }
@@ -86,6 +95,14 @@ function sketch(p){
       for (var i = 0; i < numBoxes; i++) {
         p.fill(color);
         p.rect(x + radius*p.cos(angle + i/numBoxes*p.TWO_PI), y + radius*p.sin(angle + i/numBoxes*p.TWO_PI), size, size);
+      }
+    }
+
+    function drawCircles(x, y, radius, color, size, angle) {
+      var numBoxes = 3;
+      for (var i = 0; i < numBoxes; i++) {
+        p.fill(color);
+        p.ellipse(x + radius*p.cos(angle + i/numBoxes*p.TWO_PI), y + radius*p.sin(angle + i/numBoxes*p.TWO_PI), size, size);
       }
     }
  
