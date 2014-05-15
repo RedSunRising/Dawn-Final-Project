@@ -17,7 +17,7 @@ function sketch(p){
     var c2 = null;
  
     function setup(){
-        p.size(700, 700);
+        p.size(700, 700 P3D);
         c1 = p.color(0);
         c2 = p.color(153, 50, 204);
         //setGradient(0, 0, 1000, 325, c1, c2, Y_AXIS);
@@ -58,9 +58,17 @@ function sketch(p){
           var counterRotate = 1;
           if (array[i] < 255/2) { counterRotate = -1; } // Counterrotate if the power is < 255/2
  
-          
-          if ((i%20) === 0){
-             drawCircles(
+          if ((i % 10) === 0) {
+              drawCross(
+                p.width/2,
+                p.height/2,
+                i*2, 
+                p.color(256, array[i], 0),
+                10*array[i]/255,
+                p.radians(90)
+                );
+
+                drawCircles(
                 p.width/2,
                 p.height/2,
                 i*2, 
@@ -68,29 +76,8 @@ function sketch(p){
                 10*array[i]/255,
                 p.radians(p.millis()*array[i]/512 * counterRotate)
                 );
-           }
-           
-          if ((i % 10) === 0) {
-              drawCross(
-                p.width/2,
-                p.height/2,
-                i*2, 
-                p.color(256, array[i], 0),
-                15*array[i]/255,
-                p.radians(90)
-                );
           }
-
-       /*    if ((i % 10) === 0) {
-              drawCross(
-                p.width/2,
-                p.height/2,
-                i, 
-                p.color(200, 100, array[i]),
-                10*array[i]/255,
-                p.radians(45)
-                );
-          }*/
+        }
  
         // Computing the average frequency
         // average += array[i]/255.0*(86.13*i);
@@ -101,14 +88,13 @@ function sketch(p){
         // Draw a circle whose radius is proportional to the average frequency being played
         // p.fill(255,200,100);
         // p.ellipse(p.width/2.0, p.height/2, average/10000, average/10000);
-     }
     }
  
     function drawCross(x, y, radius, color, size, angle) {
       var numBoxes = 4;
       for (var i = 0; i < numBoxes; i++) {
         p.fill(color);
-        p.rect(x + radius*p.cos(angle + i/numBoxes*p.TWO_PI), y + radius*p.sin(angle + i/numBoxes*p.TWO_PI), size, size);
+        p.box(x + radius*p.cos(angle + i/numBoxes*p.TWO_PI), y + radius*p.sin(angle + i/numBoxes*p.TWO_PI), size, size);
       }
     }
 
@@ -116,7 +102,6 @@ function sketch(p){
       var numBoxes = 3;
       for (var i = 0; i < numBoxes; i++) {
         p.fill(color);
-        p.noStroke();
         p.ellipse(x + radius*p.cos(angle + i/numBoxes*p.TWO_PI), y + radius*p.sin(angle + i/numBoxes*p.TWO_PI), size, size);
       }
     }
