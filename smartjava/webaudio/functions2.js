@@ -12,7 +12,7 @@ if (! window.AudioContext) {
 
     // load the sound
     setupAudioNodes();
-    loadSound("wagner-short.ogg");
+    loadSound("VYVCH_-_04_-_Frozen_bong.mp3");
 
 
     function setupAudioNodes() {
