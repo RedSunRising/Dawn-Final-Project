@@ -25,8 +25,8 @@ function sketch(p){
  
     function draw(){
  
-        setGradient(0, 0, p.width/2, p.height, c1, c2, X_AXIS);
-        setGradient(p.width/2, 0, p.width/2, p.height, c2, c1, X_AXIS);
+        setGradient(0, 0, p.width/2, p.height, c2, c1, X_AXIS);
+        setGradient(p.width/2, 0, p.width/2, p.height, c1, c2, X_AXIS);
         drawSpectrum(array);
     };
  
